@@ -1,35 +1,50 @@
-const hotel = require('../models/hotel.model.js')
+const Hotel = require('../models/hotel.model.js')
 const node_xj = require('xls-to-json-lc')
 
+//work but the server restart
 exports.addAll = (req,res)=>{
     node_xj({
         input: "Hotel_Tourism.xls",  // input xls
         output: "output.json", //output json
         sheet: "Sheet1",  // specific sheetname
         lowerCaseHeaders:true
-      }, function(err, result) {
+      }, (err, result) =>{
         if(err) {
           console.error(err)
         } else {
-          console.log(result)
-          //var Hotels = result
+          console.log(result[0])
+          Hotel.collection.insertMany(result, (error, docs)=> {
+             if(error){
+                conosle.error(error)
+             } else{
+                conosole.log('all done')
+             }  
+          })
         }
     })
+    res.send('all done')
 }
+
+//Work Perfectly
 // Create and Save a new Hotel
 exports.create = (req, res) => {
-    // Validate request
-    if(!req.body.content) {
+    if(!req.body.hotel_name && !req.body.rooms) {
         return res.status(400).send({
-            message: "Hotel content can not be empty"
+            message: "fields can not be empty"
         });
     }
-
     // Create a Hotel
     const hotel = new Hotel({
-        title: req.body.title || "Untitled Hotel", 
-        content: req.body.content
-    });
+        rooms: req.body.rooms,
+        hotel_name: req.body.hotel_name,
+        address : req.body.address,
+        state : req.body.state,
+        phone : req.body.phone,
+        fax : req.body.fax,
+        email_id : req.body.email_id,
+        website : req.body.website,
+        type : req.body.type
+    })
 
     // Save Hotel in the database
     hotel.save()
@@ -42,6 +57,7 @@ exports.create = (req, res) => {
     });
 };
 
+//Work perfectly
 // Retrieve and return all hotels from the database.
 exports.findAll = (req, res) => {
     Hotel.find()

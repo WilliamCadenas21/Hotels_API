@@ -1,2 +1,4 @@
 # ignore all the files un node_modules
 node_modules/
+output.json
+~*.docx

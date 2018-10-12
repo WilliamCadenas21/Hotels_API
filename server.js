@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // Configuring the database
-const dbConfig = require('./config/database.config.js');
-const mongoose = require('mongoose');
+const dbConfig = require('./config/database.config.js')
+const mongoose = require('mongoose')
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
 })
 
 // listen for requests
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000")
+app.listen(4000, () => {
+    console.log("Server is listening on port 4000")
 })
 
 // Require Notes routes
